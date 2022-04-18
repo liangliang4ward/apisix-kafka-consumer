@@ -111,11 +111,7 @@ public abstract class AbsAggregater {
         info.setRouteId(jsonNode.at("/route_id").asText());
         info.setUsername(jsonNode.at("/consumer/username").asText());
         info.setStartTime(jsonNode.at("/start_time").longValue());
-        if(localFilter){
-            info.setResponseStatus(jsonNode.at("/response/status").asText());
-        }else{
-            info.setResponseStatus(jsonNode.at("/response/headers/x-upstream-status").asText());
-        }
+        info.setResponseStatus(jsonNode.at("/response/status").asText());
         info.setServiceId(jsonNode.at("/service_id").asText());
         return info;
     }
@@ -132,17 +128,6 @@ public abstract class AbsAggregater {
         }
         if (Strings.isEmpty(info.getServiceId())) {
             return false;
-        }
-        if(!localFilter){
-            if (Strings.isEmpty(info.getResponseStatus())) {
-                return false;
-            }
-            if (!info.getRouteId().startsWith("IC") && !info.getRouteId().startsWith("PC")) {
-                return false;
-            }
-            if (!info.getUsername().startsWith(CONSUMER_PREFIX)) {
-                return false;
-            }
         }
 
         return true;
