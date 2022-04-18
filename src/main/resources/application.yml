@@ -1,0 +1,67 @@
+server:
+  port: 8390
+#配置数据源
+spring:
+  profiles:
+    active: local
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  #    default-property-inclusion: non_null
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 25
+      auth-commit: true
+      idle-timeout: 30000
+      pool-name: apiPlatformHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  main:
+    allow-bean-definition-overriding: true
+  kafka:
+    bootstrap-servers: [ip]:[port]
+    consumer:
+      group-id: kakfa-test
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.apache.kafka.common.serialization.LongDeserializer
+    streams:
+      application-id: test-kafka-stream_2
+      properties:
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.timestamp.extractor: org.apache.kafka.streams.processor.WallclockTimestampExtractor
+
+
+
+consumer:
+  kafka:
+    input:
+      local-filter: false
+      topic: apisix-access-events
+    output:
+      fiveminute:
+        topic: apisix-aggregate-fiveminute
+      day:
+        topic: apisix-aggregate-day
+      month:
+        topic: apisix-aggregate-month
+      year:
+        topic: apisix-aggregate-year
+mybatis-plus:
+  mapper-locations: classpath:com/dtzhejiang/service/mapper/xml/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+
+#logging:
+#  level:
+#    root: ERROR

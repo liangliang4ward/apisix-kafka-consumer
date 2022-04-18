@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://[ip]:[port]/[db]?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    username: [username]
+    password: [password]
+  kafka:
+    streams:
+      properties:
+        commit.interval.ms: 1000
+consumer:
+  kafka:
+    input:
+      local-filter: true

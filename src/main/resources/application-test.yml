@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://[ip]:[port]/[db]?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    username: [username]
+    password: [password]
+  kafka:
+    bootstrap-servers: [ip]:[port]
+consumer:
+  kafka:
+    input:
+      topic: apisix-access-events
+    output:
+      fiveminute:
+        topic: apisix-aggregate-fiveminute
+      day:
+        topic: apisix-aggregate-day
+      month:
+        topic: apisix-aggregate-month
+      year:
+        topic: apisix-aggregate-year
